@@ -208,8 +208,6 @@ class DiscordComponents:
 
             data["allowed_mentions"] = allowed_mentions
 
-        print(data)
-
         await self.bot.http.request(
             Route("PATCH", f"/channels/{message.channel.id}/messages/{message.id}"), json=data
         )
