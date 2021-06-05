@@ -184,9 +184,21 @@ class DiscordComponents:
         if content is not None:
             data["content"] = content
 
-        if embed:
+        """
+        try:
+            embed = fields['embed']
+        except KeyError:
+            pass
+        else:
+            if embed is not None:
+                fields['embed'] = embed.to_dict()
+        """
+
+        if embed != " ":
             embed = embed.to_dict()
             data["embed"] = embed
+        else:
+            data["embed"] = None
 
         if allowed_mentions is not None:
             if state.allowed_mentions:
@@ -195,6 +207,8 @@ class DiscordComponents:
                 allowed_mentions = allowed_mentions.to_dict()
 
             data["allowed_mentions"] = allowed_mentions
+
+        print(data)
 
         await self.bot.http.request(
             Route("PATCH", f"/channels/{message.channel.id}/messages/{message.id}"), json=data
